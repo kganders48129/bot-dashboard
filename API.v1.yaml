@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: API
+  version: '1.0'
+  contact:
+    name: Kris Anderson
+    email: kanderson@zee-way.com
+  description: ''
+servers:
+  - url: 'https://bots.zee-way.com/api/v1'
+paths:
+  /record:
+    get:
+      summary: ''
+      tags: []
+      responses: {}
+      operationId: ''
+    post:
+      summary: Record a log entry
+      operationId: post-record
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: |
+            Tenant Token
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+                  description: UUID of the instance in MEMU
+                  format: uuid
+                  example: 202d5b01-4fed-4af3-9dfb-f2dcb80a737c
+                base:
+                  type: string
+                  description: The name of the base from MEMU
+                  example: Farm1
+                  maxLength: 100
+                event:
+                  type: string
+                  description: The key for the event in the patterns.json
+                  example: startingbase
+                  maxLength: 100
+                msg:
+                  type: string
+                  description: 'The full log message, raw, unformatted'
+                  example: Starting instance Farm1
+              required:
+                - msg
+            examples:
+              example-1: {}
+        description: |-
+          {
+            "uuid": "uuid",
+            "base": "basename",
+            "event": "eventname",
+            "msg": "logmessage"
+          }
+      description: ''
+components:
+  schemas: {}
+  securitySchemes:
+    token:
+      name: API Key
+      type: apiKey
+      in: header
+      description: ''
